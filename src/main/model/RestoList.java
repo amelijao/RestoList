@@ -18,7 +18,7 @@ public class RestoList {
         this.restaurants.add(restaurant);
     }
 
-    // EFFECTS: returns all restaurants in list
+    // EFFECTS: returns all restaurants in list in the order they were added
     public ArrayList<Restaurant> getRestaurants() {
         return this.restaurants;
     }

@@ -10,13 +10,15 @@ public class Restaurant {
     private String cuisine;
     private String notes;
 
-    // EFFECTS: produces new Restaurant with a name
-    public Restaurant(String name) {
+    // EFFECTS: produces new Restaurant
+    public Restaurant() {
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 
-
-    // REQUIRES: rating should be between 0 and 10
+    // REQUIRES: rating should be between 0 and 10 inclusive
     public void setRating(Integer rating) {
         this.rating = rating;
     }
