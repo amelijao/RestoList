@@ -4,13 +4,14 @@ import model.RestoList;
 import model.Restaurant;
 import java.util.Scanner;
 
-// RestoList application
+// RestoList application, inspired by TellerApp
+
 public class RestoListApp {
 
     private Scanner input;
     private RestoList restoList;
 
-    // EFFECTS: runs the RestoList app!
+    // EFFECTS: runs the RestoList app
     public RestoListApp() {
         restoList = new RestoList();
         runRestoList();
@@ -49,6 +50,7 @@ public class RestoListApp {
         }
     }
 
+    // REQUIRES: rating input must be integer
     // MODIFIES: restoList
     // EFFECTS: allows user to add a new restaurant to restoList (with name, rating, cuisine type, notes)
     private void addResto() {
@@ -103,7 +105,7 @@ public class RestoListApp {
         System.out.print(answerResto.getName() + " notes: " + answerResto.getNotes() + "\n");
     }
 
-    // EFFECTS: user chooses whether to filter by rating or cuisine type
+    // EFFECTS: gives user choice whether to filter by rating or cuisine type
     private void filterList() {
         if (!restoList.getRestaurants().isEmpty()) {
             System.out.print("\nEnter r to filter by rating, or c to filter by cuisine type: ");
