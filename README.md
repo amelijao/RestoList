@@ -21,5 +21,5 @@ Users will be able to view their collection of restaurants and filter by rating 
 - As a user, I want to be able to view a full list of the restaurants I’ve added
 - As a user, I want to be able to filter my restaurants by rating and cuisine type 
 - As a user, I want to be able to select a restaurant and view the notes I’ve added
-- As a user, when I select the quit option, I want to have the option to save my restaurants or not.
-- As a user, when I start the application, I want to be given the option to load my restaurants from file.
+- As a user, I want to have the option to save my restaurants.
+- As a user, I want to be given the option to load my restaurants from file.

@@ -3,17 +3,26 @@ package ui;
 import model.RestoList;
 import model.Restaurant;
 import java.util.Scanner;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-// RestoList application, inspired by TellerApp
+// RestoList application, inspired by TellerApp and JsonSerializationDemo
 
 public class RestoListApp {
 
     private Scanner input;
     private RestoList restoList;
+    private static final String JSON_STORE = "./data/restolist.json";
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the RestoList app
     public RestoListApp() {
         restoList = new RestoList();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         runRestoList();
     }
 
@@ -45,6 +54,10 @@ public class RestoListApp {
             viewList();
         } else if (command.equals("f")) {
             filterList();
+        } else if (command.equals("s")) {
+            saveRestoList();
+        } else if (command.equals("l")) {
+            loadRestoList();
         } else {
             System.out.println("\nSelection not valid... Try again!");
         }
@@ -154,11 +167,36 @@ public class RestoListApp {
         System.out.println("\ta -> Add restaurant");
         System.out.println("\tv -> View all restaurants");
         System.out.println("\tf -> Filter restaurants");
+        System.out.println("\ts -> Save restaurants to file");
+        System.out.println("\tl -> Load restaurants from file");
         System.out.println("\tq -> Quit");
     }
 
     //EFFECTS: prints a single restaurant's info (name, cuisine, rating)
     private void printRestoInfo(Restaurant r) {
         System.out.print(r.getName() + "\t Cuisine: " + r.getCuisine() + "\t Rating: " + r.getRating() + "/10\n");
+    }
+
+    // EFFECTS: saves the restolist to file
+    private void saveRestoList() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(restoList);
+            jsonWriter.close();
+            System.out.println("Saved restaurants to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads restolist from file
+    private void loadRestoList() {
+        try {
+            restoList = jsonReader.read();
+            System.out.println("Loaded restaurants from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 }

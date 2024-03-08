@@ -1,10 +1,14 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 
 // RestoList is a list of Restaurants
 
-public class RestoList {
+public class RestoList implements Writable {
 
     private ArrayList<Restaurant> restaurants; // list of all the Restaurants
 
@@ -43,6 +47,24 @@ public class RestoList {
             }
         }
         return filtered;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("restaurants", restaurantsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this Restolist as a JSON array
+    private JSONArray restaurantsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Restaurant r : restaurants) {
+            jsonArray.put(r.toJson());
+        }
+
+        return jsonArray;
     }
 
 }

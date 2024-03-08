@@ -1,9 +1,12 @@
 package model;
 
+import persistence.Writable;
 
 // Represents a restaurant that has a name, rating (out of 10), cuisine type, and notes
 
-public class Restaurant {
+import org.json.JSONObject;
+
+public class Restaurant implements Writable {
 
     private String name;
     private int rating;
@@ -47,4 +50,13 @@ public class Restaurant {
         return this.notes;
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("rating", rating);
+        json.put("cuisine", cuisine);
+        json.put("notes", notes);
+        return json;
+    }
 }

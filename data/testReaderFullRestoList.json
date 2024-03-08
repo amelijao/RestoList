@@ -1,0 +1,14 @@
+{"restaurants": [
+  {
+    "notes": "blah blah blah",
+    "name": "test1",
+    "rating": 10,
+    "cuisine": "cuisine"
+  }, {
+    "notes": "blah blah again",
+    "name": "test2",
+    "rating": 1,
+    "cuisine": "cuisine two"
+  }
+]
+}
