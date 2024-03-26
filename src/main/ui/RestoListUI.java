@@ -1,7 +1,6 @@
 package ui;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -10,19 +9,24 @@ import model.RestoList;
 import model.Restaurant;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+
 import persistence.JsonReader;
 import persistence.JsonWriter;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 
 public class RestoListUI {
 
     private JFrame frame;
     private JPanel panel;
+    private JPanel addingPanel;
+    private JLabel addingPanelLabel;
+    private JTextField addNameText;
+    private JTextField addCuisineText;
+    private JTextField addRatingText;
+    private JTextField addNotesText;
     private JScrollPane listPanel;
-    private Label listLabel;
+    private JLabel listLabel;
 
     private RestoList restoList;
 
@@ -40,13 +44,17 @@ public class RestoListUI {
 
         frame = new JFrame();
         panel = new JPanel();
+
+        makeAddingPanel();
+
         listPanel = new JScrollPane();
-        listLabel = new Label("Here are your current Restaurants:");
+        listLabel = new JLabel("Here are your current Restaurants:");
+
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel.setLayout(new GridLayout(1, 2));
+        panel.setLayout(new GridLayout(1, 3));
         addButtons();
 
-        frame.add(panel, BorderLayout.WEST);
+        frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("RestoList GUI");
         frame.pack();
@@ -69,7 +77,7 @@ public class RestoListUI {
     private void displayList() {
         if (!restoList.getRestaurants().isEmpty()) {
             listPanel = new JScrollPane(restoListToJList());
-            frame.add(listPanel, BorderLayout.CENTER);
+            panel.add(listPanel);
         }
     }
 
@@ -83,6 +91,31 @@ public class RestoListUI {
         buttonPanel.add(new JButton(new ViewAction()));
         buttonPanel.add(new JButton(new FilterAction()));
         panel.add(buttonPanel, BorderLayout.WEST);
+    }
+
+    //sets up panel for adding restaurants
+    private void makeAddingPanel() {
+        addingPanel = new JPanel();
+        addingPanelLabel = new JLabel("Enter restaurant info below and click 'Add'");
+        addingPanel.setLayout(new GridLayout(6, 0));
+        addNameText = new JTextField("name");
+        addCuisineText = new JTextField("cuisine");
+        addRatingText = new JTextField("rating");
+        addNotesText = new JTextField("notes");
+        JLabel nameLabel = new JLabel("Name:");
+        nameLabel.setLabelFor(addNameText);
+        JLabel cuisineLabel = new JLabel("Cuisine:");
+        cuisineLabel.setLabelFor(addCuisineText);
+        JLabel ratingLabel = new JLabel("Rating:");
+        ratingLabel.setLabelFor(addRatingText);
+        JLabel notesLabel = new JLabel("Notes:");
+        notesLabel.setLabelFor(addNotesText);
+        addingPanel.add(addingPanelLabel);
+        addingPanel.add(addNameText);
+        addingPanel.add(addCuisineText);
+        addingPanel.add(addRatingText);
+        addingPanel.add(addNotesText);
+        addingPanel.add(new JButton(new AddRestoAction()));
     }
 
     //LoadAction deals with the button for loading data from file
@@ -123,7 +156,7 @@ public class RestoListUI {
         }
     }
 
-    //AddAction deals with the button for adding a new restaurant
+    //AddAction causes the panel for adding a new restaurant to pop up
     private class AddAction extends AbstractAction {
 
         AddAction() {
@@ -132,7 +165,7 @@ public class RestoListUI {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            panel.add(addingPanel);
         }
     }
 
@@ -160,6 +193,30 @@ public class RestoListUI {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+        }
+    }
+
+    //AddRestoAction deals with the button for adding a new restaurant
+    private class AddRestoAction extends AbstractAction {
+
+        AddRestoAction() {
+            super("Add");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String name = addNameText.getText();
+            String cuisine = addCuisineText.getText();
+            int rating = Integer.parseInt(addRatingText.getText());
+            String notes = addNotesText.getText();
+
+            Restaurant newResto = new Restaurant();
+            newResto.setName(name);
+            newResto.setCuisine(cuisine);
+            newResto.setRating(rating);
+            newResto.setNotes(notes);
+
+            restoList.addRestaurant(newResto);
         }
     }
 }
