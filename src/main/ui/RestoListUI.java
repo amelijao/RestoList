@@ -14,21 +14,18 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 import java.io.FileNotFoundException;
 
-
+//Graphical User Interface for RestoList Application
 public class RestoListUI {
 
     private JFrame frame;
     private JPanel panel;
     private JPanel addingPanel;
-    private JLabel addingPanelLabel;
     private JTextField addNameText;
     private JTextField addCuisineText;
     private JTextField addRatingText;
     private JTextField addNotesText;
     private JPanel listPanel;
-    private JLabel listLabel;
     private JPanel filteringPanel;
-    private JLabel filteringPanelLabel;
     private JTextField addFilterCText;
     private JTextField addFilterRText;
     private JList<String> currentList;
@@ -40,7 +37,7 @@ public class RestoListUI {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
-
+    //EFFECTS: sets up frame and panels
     public RestoListUI() {
 
         restoList = new RestoList();
@@ -53,95 +50,105 @@ public class RestoListUI {
         panel = new JPanel();
 
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel.setLayout(new GridLayout(1, 3));
+        panel.setLayout(new GridLayout(1, 4));
         addButtons();
-
         frame.add(panel);
         makeAddingPanel();
         makeFilteringPanel();
         makeDisplayPanel();
-        frame.add(listPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridLayout(1, 3));
         frame.setTitle("RestoList GUI");
         frame.pack();
         frame.setVisible(true);
-
     }
 
-    //makes a JList of the current restaurant names
+    //EFFECTS: returns a JList of the current restaurant names
     private JList<String> restoListToJList() {
 
-        ArrayList<String> stringList = new ArrayList<>();
+        ArrayList<String> rlist = new ArrayList<>();
         for (Restaurant r : restoList.getRestaurants()) {
-            stringList.add(r.getName() + ", " + r.getCuisine() + ", " + r.getRating() + "/10\n");
+            rlist.add(r.getName() + ", " + r.getCuisine() + ", " + r.getRating() + "/10, " + "notes: " + r.getNotes());
         }
-        JList<String> displayList = new JList<>(stringList.toArray(new String[0]));
+        JList<String> displayList = new JList<>(rlist.toArray(new String[0]));
         return displayList;
     }
 
-    //Adds a panel with load, save, add, view, and filter buttons
+    //EFFECTS: Adds a panel with load, save, add, and view buttons
     private void addButtons() {
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(5, 1));
+        buttonPanel.setLayout(new GridLayout(4, 1));
         buttonPanel.add(new JButton(new LoadAction()));
         buttonPanel.add(new JButton(new SaveAction()));
         buttonPanel.add(new JButton(new AddAction()));
         buttonPanel.add(new JButton(new ViewAction()));
-        //buttonPanel.add(new JButton(new FilterAction()));
         panel.add(buttonPanel, BorderLayout.WEST);
     }
 
-    //sets up panel for adding restaurants
+    //EFFECTS: sets up panel for adding restaurants
     private void makeAddingPanel() {
         addingPanel = new JPanel();
-        addingPanelLabel = new JLabel("New restaurant:");
+        JLabel addingPanelLabel = new JLabel("Enter new restaurant info:");
         addingPanel.setLayout(new BoxLayout(addingPanel, BoxLayout.PAGE_AXIS));
-        addNameText = new JTextField("name");
-        addCuisineText = new JTextField("cuisine");
-        addRatingText = new JTextField("rating");
-        addNotesText = new JTextField("notes");
+        addingPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        addNameText = new JTextField();
+        addCuisineText = new JTextField();
+        addRatingText = new JTextField();
+        addNotesText = new JTextField();
         JLabel nameLabel = new JLabel("Name:");
-        nameLabel.setLabelFor(addNameText);
         JLabel cuisineLabel = new JLabel("Cuisine:");
-        cuisineLabel.setLabelFor(addCuisineText);
         JLabel ratingLabel = new JLabel("Rating:");
-        ratingLabel.setLabelFor(addRatingText);
         JLabel notesLabel = new JLabel("Notes:");
-        notesLabel.setLabelFor(addNotesText);
         addingPanel.add(addingPanelLabel);
+        addingPanel.add(nameLabel);
         addingPanel.add(addNameText);
+        addingPanel.add(cuisineLabel);
         addingPanel.add(addCuisineText);
+        addingPanel.add(ratingLabel);
         addingPanel.add(addRatingText);
+        addingPanel.add(notesLabel);
         addingPanel.add(addNotesText);
         addingPanel.add(new JButton(new AddRestoAction()));
         frame.pack();
     }
 
-    //sets up panel for filtering restaurants
+    //EFFECTS: sets up panel for filtering restaurants
     private void makeFilteringPanel() {
         filteringPanel = new JPanel();
-        filteringPanelLabel = new JLabel("filter restaurants by cuisine or rating:");
-        filteringPanel.setLayout((new BoxLayout(filteringPanel, BoxLayout.PAGE_AXIS)));
+        JLabel filteringPanelLabel = new JLabel("Filter Restaurants by:");
+        filteringPanel.setLayout(new GridLayout(8, 0));
+        filteringPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        addFilterCText = new JTextField();
+        addFilterRText = new JTextField();
+        JLabel filterCuisineLabel = new JLabel("Desired Cuisine:");
+        JLabel filterRatingLabel = new JLabel("Desired Rating /10:");
         filteringPanel.add(filteringPanelLabel);
-        addFilterCText = new JTextField("enter cuisine");
-        addFilterRText = new JTextField("enter rating");
+        filteringPanel.add(filterCuisineLabel);
         filteringPanel.add(addFilterCText);
         filteringPanel.add(new JButton(new FilterCuisineAction()));
+        filteringPanel.add(filterRatingLabel);
         filteringPanel.add(addFilterRText);
         filteringPanel.add(new JButton(new FilterRatingAction()));
         filterDisplayList = new JList<>();
         filteringPanel.add(filterDisplayList);
-        frame.add(filteringPanel);
+        panel.add(filteringPanel);
         frame.pack();
     }
 
-    //sets up display panel
+    //EFFECTS: sets up display panel that shows current list and logo
     private void makeDisplayPanel() {
         listPanel = new JPanel();
-        listPanel.add(currentList);
-        listLabel = new JLabel("Here are your current restaurants:");
+        listPanel.setLayout(new GridLayout(3, 0));
+        listPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JLabel listLabel = new JLabel("Click 'View Restaurants' for an updated list:");
         listPanel.add(listLabel);
+        listPanel.add(currentList);
+        JLabel logo = new JLabel();
+        String img = "data/RestoListGrey.png";
+        Image icon = new ImageIcon(img).getImage().getScaledInstance(300, 80, Image.SCALE_SMOOTH);
+        logo.setIcon(new ImageIcon(icon));
+        listPanel.add(logo);
+        panel.add(listPanel);
         frame.pack();
     }
 
@@ -152,13 +159,14 @@ public class RestoListUI {
             super("Load Restaurants");
         }
 
+        //EFFECTS: loads data from file and prints to console
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 restoList = jsonReader.read();
-                System.out.println("Loaded restaurants from " + JSON_STORE); //prints to console
+                System.out.println("Loaded restaurants from " + JSON_STORE);
             } catch (IOException exception) {
-                System.out.println("Unable to read from file: " + JSON_STORE); //prints to console
+                System.out.println("Unable to read from file: " + JSON_STORE);
             }
         }
     }
@@ -170,15 +178,16 @@ public class RestoListUI {
             super("Save Restaurants");
         }
 
+        //EFFECTS: saves data to file and prints to console
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 jsonWriter.open();
                 jsonWriter.write(restoList);
                 jsonWriter.close();
-                System.out.println("Saved restaurants to " + JSON_STORE); //prints to console
+                System.out.println("Saved restaurants to " + JSON_STORE);
             } catch (FileNotFoundException exception) {
-                System.out.println("Unable to write to file: " + JSON_STORE); //prints to console
+                System.out.println("Unable to write to file: " + JSON_STORE);
             }
         }
     }
@@ -190,6 +199,7 @@ public class RestoListUI {
             super("Add New Restaurant");
         }
 
+        //EFFECTS: adds adding panel to frame
         @Override
         public void actionPerformed(ActionEvent e) {
             panel.add(addingPanel);
@@ -204,6 +214,7 @@ public class RestoListUI {
             super("View Restaurants");
         }
 
+        //EFFECTS: adds current list of restaurants to display panel
         @Override
         public void actionPerformed(ActionEvent e) {
             listPanel.remove(currentList);
@@ -220,9 +231,11 @@ public class RestoListUI {
             super("Filter by cuisine");
         }
 
+        //EFFECTS: displays filtered list of restaurants with given cuisine
         @Override
         public void actionPerformed(ActionEvent e) {
             filteringPanel.remove(filterDisplayList);
+            frame.pack();
             String cuisine = addFilterCText.getText();
             ArrayList<String> filtered = new ArrayList<>();
             for (Restaurant r : restoList.getRestaurants()) {
@@ -230,7 +243,8 @@ public class RestoListUI {
                     filtered.add(r.getName() + ", " + r.getCuisine());
                 }
             }
-            JList<String> filterDisplayList = new JList<>(filtered.toArray(new String[0]));
+            JList<String> newFilterDisplayList = new JList<>(filtered.toArray(new String[0]));
+            filterDisplayList = newFilterDisplayList;
             filteringPanel.add(filterDisplayList);
             frame.pack();
         }
@@ -243,9 +257,11 @@ public class RestoListUI {
             super("Filter by rating");
         }
 
+        //EFFECTS: displays filtered list of restaurants with given rating
         @Override
         public void actionPerformed(ActionEvent e) {
             filteringPanel.remove(filterDisplayList);
+            frame.pack();
             int rating = Integer.parseInt(addFilterRText.getText());
             ArrayList<String> filtered = new ArrayList<>();
             for (Restaurant r : restoList.getRestaurants()) {
@@ -253,7 +269,8 @@ public class RestoListUI {
                     filtered.add(r.getName() + ", " + r.getRating() + "/10");
                 }
             }
-            JList<String> filterDisplayList = new JList<>(filtered.toArray(new String[0]));
+            JList<String> newFilterDisplayList = new JList<>(filtered.toArray(new String[0]));
+            filterDisplayList = newFilterDisplayList;
             filteringPanel.add(filterDisplayList);
             frame.pack();
         }
@@ -266,6 +283,7 @@ public class RestoListUI {
             super("Add");
         }
 
+        //EFFECTS: adds new restaurant with given name, cuisine, rating, and notes
         @Override
         public void actionPerformed(ActionEvent e) {
             String name = addNameText.getText();

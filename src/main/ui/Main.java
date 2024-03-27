@@ -1,11 +1,8 @@
 package ui;
 
 public class Main {
-//    public static void main(String[] args) {
-//        new RestoListApp();
-//    }
 
-    // starts the application
+    // starts the application (GUI, not console)
     public static void main(String[] args) {
         new RestoListUI();
     }
