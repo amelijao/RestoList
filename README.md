@@ -23,3 +23,10 @@ Users will be able to view their collection of restaurants and filter by rating 
 - As a user, I want to be able to select a restaurant and view the notes I’ve added
 - As a user, I want to have the option to save my restaurants.
 - As a user, I want to be given the option to load my restaurants from file.
+
+### Instructions for Grader
+- You can generate the first required action related to the user story "adding multiple Xs to a Y" by clicking the "Add New Restaurant" button, filling in the fields that pop up, then clicking the "Add" button to add a new restaurant
+- You can generate the second required action related to the user story "adding multiple Xs to a Y" by filling in the 'Desired Cuisine' or 'Desired Rating /10' field and clicking the filter button to view a filtered list of restaurants
+- You can locate my visual component by looking at the logo in the display panel
+- You can save the state of my application by clicking the "Save Restaurants" button
+- You can reload the state of my application by clicking the "Load Restaurants" button

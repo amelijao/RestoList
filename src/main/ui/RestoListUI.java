@@ -257,6 +257,7 @@ public class RestoListUI {
             super("Filter by rating");
         }
 
+        //REQUIRES: user inputs an integer between 0 and 10
         //EFFECTS: displays filtered list of restaurants with given rating
         @Override
         public void actionPerformed(ActionEvent e) {
