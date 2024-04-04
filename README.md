@@ -30,3 +30,24 @@ Users will be able to view their collection of restaurants and filter by rating 
 - You can locate my visual component by looking at the logo in the display panel
 - You can save the state of my application by clicking the "Save Restaurants" button
 - You can reload the state of my application by clicking the "Load Restaurants" button
+
+### Phase 4: Task 2
+Example of events printed to console from EventLog:
+
+Restaurants loaded from file Wed Apr 03 18:24:15 PDT 2024
+
+Added McDonald's to RestoList Wed Apr 03 18:24:15 PDT 2024
+
+Added Koi Sushi to RestoList Wed Apr 03 18:24:15 PDT 2024
+
+Added A&W to RestoList Wed Apr 03 18:24:16 PDT 2024
+
+RestoList saved Wed Apr 03 18:24:29 PDT 2024
+
+Added newresto to RestoList Wed Apr 03 18:24:30 PDT 2024
+
+Viewed updated RestoList Wed Apr 03 18:24:34 PDT 2024
+
+Restaurants filtered by rating: 8 Wed Apr 03 18:24:39 PDT 2024
+
+Restaurants filtered by cuisine: fast food 

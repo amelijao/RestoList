@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import model.RestoList;
 import model.Restaurant;
+import model.EventLog;
+import model.Event;
 
 import java.util.ArrayList;
 
@@ -39,16 +41,7 @@ public class RestoListUI {
 
     //EFFECTS: sets up frame and panels
     public RestoListUI() {
-
-        restoList = new RestoList();
-        currentList = new JList<>();
-
-        jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE);
-
-        frame = new JFrame();
-        panel = new JPanel();
-
+        setUp();
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setLayout(new GridLayout(1, 4));
         addButtons();
@@ -61,7 +54,29 @@ public class RestoListUI {
         frame.setTitle("RestoList GUI");
         frame.pack();
         frame.setVisible(true);
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                printLog(EventLog.getInstance());
+            }
+        });
     }
+
+    private void setUp() {
+        restoList = new RestoList();
+        currentList = new JList<>();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+        frame = new JFrame();
+        panel = new JPanel();
+    }
+
+    private void printLog(EventLog el) {
+        for (Event next : el) {
+            System.out.print(next);
+        }
+    }
+
 
     //EFFECTS: returns a JList of the current restaurant names
     private JList<String> restoListToJList() {
@@ -159,12 +174,11 @@ public class RestoListUI {
             super("Load Restaurants");
         }
 
-        //EFFECTS: loads data from file and prints to console
+        //EFFECTS: loads data from file
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 restoList = jsonReader.read();
-                System.out.println("Loaded restaurants from " + JSON_STORE);
             } catch (IOException exception) {
                 System.out.println("Unable to read from file: " + JSON_STORE);
             }
@@ -178,14 +192,13 @@ public class RestoListUI {
             super("Save Restaurants");
         }
 
-        //EFFECTS: saves data to file and prints to console
+        //EFFECTS: saves data to file
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 jsonWriter.open();
                 jsonWriter.write(restoList);
                 jsonWriter.close();
-                System.out.println("Saved restaurants to " + JSON_STORE);
             } catch (FileNotFoundException exception) {
                 System.out.println("Unable to write to file: " + JSON_STORE);
             }
@@ -237,12 +250,7 @@ public class RestoListUI {
             filteringPanel.remove(filterDisplayList);
             frame.pack();
             String cuisine = addFilterCText.getText();
-            ArrayList<String> filtered = new ArrayList<>();
-            for (Restaurant r : restoList.getRestaurants()) {
-                if (r.getCuisine().equalsIgnoreCase(cuisine)) {
-                    filtered.add(r.getName() + ", " + r.getCuisine());
-                }
-            }
+            ArrayList<String> filtered = restoList.filterCuisine(cuisine);
             JList<String> newFilterDisplayList = new JList<>(filtered.toArray(new String[0]));
             filterDisplayList = newFilterDisplayList;
             filteringPanel.add(filterDisplayList);
@@ -264,12 +272,7 @@ public class RestoListUI {
             filteringPanel.remove(filterDisplayList);
             frame.pack();
             int rating = Integer.parseInt(addFilterRText.getText());
-            ArrayList<String> filtered = new ArrayList<>();
-            for (Restaurant r : restoList.getRestaurants()) {
-                if (r.getRating().equals(rating)) {
-                    filtered.add(r.getName() + ", " + r.getRating() + "/10");
-                }
-            }
+            ArrayList<String> filtered = restoList.filterRating(rating);
             JList<String> newFilterDisplayList = new JList<>(filtered.toArray(new String[0]));
             filterDisplayList = newFilterDisplayList;
             filteringPanel.add(filterDisplayList);

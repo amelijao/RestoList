@@ -19,33 +19,37 @@ public class RestoList implements Writable {
     // MODIFIES: this
     // EFFECTS: adds new restaurant to the end of the list
     public void addRestaurant(Restaurant restaurant) {
+
         this.restaurants.add(restaurant);
+        EventLog.getInstance().logEvent(new Event("Added " + restaurant.getName() + " to RestoList "));
     }
 
     // EFFECTS: returns all restaurants in list in the order they were added
     public ArrayList<Restaurant> getRestaurants() {
+        EventLog.getInstance().logEvent(new Event("Viewed updated RestoList "));
         return this.restaurants;
     }
 
-    // EFFECTS: returns only restaurants of given cuisine type
-    public ArrayList<Restaurant> filterCuisine(String cuisine) {
-        ArrayList<Restaurant> filtered = new ArrayList<>();
+    public ArrayList<String> filterCuisine(String cuisine) {
+        ArrayList<String> filtered = new ArrayList<>();
         for (Restaurant r : this.restaurants) {
             if (r.getCuisine().equalsIgnoreCase(cuisine)) {
-                filtered.add(r);
+                filtered.add(r.getName() + ", " + r.getCuisine());
             }
         }
+        EventLog.getInstance().logEvent(new Event("Restaurants filtered by cuisine: " + cuisine + " "));
         return filtered;
     }
 
-    // EFFECTS: returns only restaurants of given rating
-    public ArrayList<Restaurant> filterRating(int rating) {
-        ArrayList<Restaurant> filtered = new ArrayList<>();
+    // EFFECTS: returns list of strings describing restaurants of given rating
+    public ArrayList<String> filterRating(int rating) {
+        ArrayList<String> filtered = new ArrayList<>();
         for (Restaurant r : this.restaurants) {
-            if (r.getRating() == rating) {
-                filtered.add(r);
+            if (r.getRating().equals(rating)) {
+                filtered.add(r.getName() + ", " + r.getRating() + "/10");
             }
         }
+        EventLog.getInstance().logEvent(new Event("Restaurants filtered by rating: " + rating + " "));
         return filtered;
     }
 

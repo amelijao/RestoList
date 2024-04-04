@@ -142,8 +142,8 @@ public class RestoListApp {
         if (restoList.filterCuisine(answer).isEmpty()) {
             System.out.print("Nothing with this cuisine type yet!\n");
         } else {
-            for (Restaurant r : restoList.filterCuisine(answer)) {
-                printRestoInfo(r);
+            for (String s : restoList.filterCuisine(answer)) {
+                System.out.print(s);
             }
         }
     }
@@ -155,8 +155,8 @@ public class RestoListApp {
         if (restoList.filterRating(answer).isEmpty()) {
             System.out.print("Nothing with this rating yet!\n");
         } else {
-            for (Restaurant r : restoList.filterRating(answer)) {
-                printRestoInfo(r);
+            for (String s : restoList.filterRating(answer)) {
+                System.out.print(s);
             }
         }
     }
