@@ -51,3 +51,8 @@ Viewed updated RestoList Wed Apr 03 18:24:34 PDT 2024
 Restaurants filtered by rating: 8 Wed Apr 03 18:24:39 PDT 2024
 
 Restaurants filtered by cuisine: fast food 
+
+
+### Phase 4: Task 3
+If I had more time, one of the main things I would refactor is some of the duplicate code in my filtering. As of right now, filtering by cuisine and filtering by rating are completely separate. I could extract the similarities so that there's a single point of control if I want to change how the filtering generally works.
+I could also completely get rid of the RestoListApp class, since the RestoListUI class with the GUI is now being used instead of the console version. 

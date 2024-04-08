@@ -8,7 +8,7 @@ import persistence.JsonWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-// RestoList application, inspired by TellerApp and JsonSerializationDemo
+// RestoList console application, inspired by TellerApp and JsonSerializationDemo
 
 public class RestoListApp {
 
